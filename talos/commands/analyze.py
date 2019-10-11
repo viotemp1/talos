@@ -61,8 +61,8 @@ class Analyze:
         out = out.corr()[metric]
 
         return out[out != 1]
-
-    def plot_line(self, metric):
+#vio
+    def plot_line(self, title="", metric=None):
 
         '''A line plot for a given metric where rounds is on x-axis
 
@@ -73,7 +73,8 @@ class Analyze:
         '''
         try:
             import astetik as ast
-            return ast.line(self.data, metric)
+            print(title, metric)
+            return ast.line(self.data, x=metric, title=title)
         except:
             print('Matplotlib Runtime Error. Plots will not work.')
 

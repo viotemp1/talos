@@ -11,12 +11,23 @@ def parallel_gpu_jobs(allow_growth=True, fraction=.5):
 
     import keras.backend as K
     import tensorflow as tf
+    from nvidia_info import get_memory_info
 
-    gpu_options = tf.GPUOptions(allow_growth=allow_growth,
+    memory_info = get_memory_info(0)
+    total_memory = memory_info[1]
+    memory_limit = int(fraction*total_memory)
+    print(memory_info)
+    if tf.version.VERSION[0]=="2":
+        gpus = tf.config.experimental.list_physical_devices('GPU')
+        tf.config.experimental.set_memory_growth(gpus[0], True)
+        tf.config.experimental.set_virtual_device_configuration(gpus[0],
+            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=memory_limit)])
+    else:
+        gpu_options = tf.GPUOptions(allow_growth=allow_growth,
                                   per_process_gpu_memory_fraction=fraction)
-    config = tf.ConfigProto(gpu_options=gpu_options)
-    session = tf.Session(config=config)
-    K.set_session(session)
+        config = tf.ConfigProto(gpu_options=gpu_options)
+        session = tf.Session(config=config)
+        K.set_session(session)
 
 
 def multi_gpu(model, gpus=None, cpu_merge=True, cpu_relocation=False):
