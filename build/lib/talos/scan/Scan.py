@@ -152,7 +152,8 @@ class Scan:
                  disable_progress_bar=False,
                  print_params=False,
                  clear_session=True,
-                 save_weights=True):
+                 save_weights=True,
+                 progress=0):
 
         self.x = x
         self.y = y
@@ -193,6 +194,7 @@ class Scan:
         
         self.progress = 0
 
+    def run(self):
         # start runtime
         from .scan_run import scan_run
         scan_run(self)
