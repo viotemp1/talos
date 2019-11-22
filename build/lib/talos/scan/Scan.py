@@ -190,6 +190,8 @@ class Scan:
         self.clear_session = clear_session
         self.save_weights = save_weights
         # input parameters section ends
+        
+        self.progress = 0
 
         # start runtime
         from .scan_run import scan_run

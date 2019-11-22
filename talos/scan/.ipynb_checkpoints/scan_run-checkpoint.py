@@ -25,6 +25,7 @@ def scan_run(self):
         from .scan_round import scan_round
         self = scan_round(self)
         self.pbar.update(1)
+        self.progress = self.pbar.n
 #        try:
 #            self = scan_round(self)
 #            self.pbar.update(1)
